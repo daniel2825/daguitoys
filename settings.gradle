@@ -1,0 +1,6 @@
+rootProject.name = 'daguitoys'
+include 'co-com-inventory'
+include 'co-com-daguiModel'
+include 'co-com-common'
+include 'co-com-start-aplication'
+
