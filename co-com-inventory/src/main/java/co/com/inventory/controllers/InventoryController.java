@@ -1,25 +1,33 @@
 package co.com.inventory.controllers;
 
 import co.com.daguiModel.Models.Products;
+import co.com.inventory.services.IGetProductsServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("{ $daguitoys.base.enpoint }")
+@RestController
 public class InventoryController {
+
+    private final IGetProductsServices productsServices;
+
+    @Autowired
+    public InventoryController(IGetProductsServices productsServices){
+        this.productsServices = productsServices;
+    }
 
     @GetMapping(value = "/get/inventory")
     @ResponseBody
     public ResponseEntity<Products> products(){
-        /*Conexion a la base de datos aws*/
-        Products products = new Products();
-        products.cantidad = 3;
-        products.idProducto = 2;
-        products.nombreProducto = "Martillo";
+
+        final Products products =
+                productsServices.getInventory2();
+
+        final Products products2 =
+                productsServices.getInventory();
 
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

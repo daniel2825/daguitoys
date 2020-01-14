@@ -19,4 +19,11 @@ subprojects{
 		targetCompatibility = 1.8
 	}
 
+    dependencies {
+        testCompile("junit:junit:4.12")
+        testRuntime("org.junit.vintage:junit-vintage-engine:4.12.0-M4")
+		compileOnly 'org.projectlombok:lombok:1.18.10'
+		annotationProcessor 'org.projectlombok:lombok:1.18.10'
+	}
+
 }
