@@ -35,7 +35,6 @@ public class InventoryControllerTest {
     @Test
     public void productsTest(){
 
-//        Mockito.when(productsServices.getInventory2()).thenReturn(new Products());
        final ResponseEntity<Products> responseProduct = inventoryController.products();
 
         Assert.assertEquals(HttpStatus.OK,responseProduct.getStatusCode());
