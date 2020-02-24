@@ -1,29 +1,31 @@
 plugins {
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
-subprojects{
-	group = 'com.store'
-	version = '0.0.1-SNAPSHOT'
+subprojects {
+    group = 'com.store'
+    version = '0.0.1-SNAPSHOT'
 
-	apply plugin: 'java'
-	apply plugin: 'io.spring.dependency-management'
-	apply plugin: 'java-library'
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
 
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+    }
 
-	compileJava {
-		sourceCompatibility = 1.8
-		targetCompatibility = 1.8
-	}
+    compileJava {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
     dependencies {
         testCompile("junit:junit:4.12")
         testRuntime("org.junit.vintage:junit-vintage-engine:4.12.0-M4")
-		compileOnly 'org.projectlombok:lombok:1.18.10'
-		annotationProcessor 'org.projectlombok:lombok:1.18.10'
-	}
+        compileOnly 'org.projectlombok:lombok:1.18.10'
+        annotationProcessor 'org.projectlombok:lombok:1.18.10'
+        compile group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-3'
+
+    }
 
 }

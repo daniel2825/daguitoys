@@ -8,4 +8,6 @@ public interface IGetProductsServices {
   Products getInventory2();
 
   int getSum(int input1, int input2);
+
+  Integer getRest(String input1, String input2);
 }

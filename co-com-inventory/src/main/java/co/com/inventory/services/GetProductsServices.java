@@ -4,9 +4,11 @@ import co.com.daguiModel.Models.Benefits;
 import co.com.daguiModel.Models.Prices;
 import co.com.daguiModel.Models.Products;
 import co.com.inventory.consumer.IOperation;
+import io.vavr.control.Try;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -74,6 +76,28 @@ public class GetProductsServices implements IGetProductsServices {
   public int getSum(final int input1, final int input2) {
     final String log = "Saved sum";
     this.operation.saveLogSum(log);
-    return this.operation.sum(input1, input2);
+    return Optional.ofNullable(this.operation.sum(input1, input2))
+        .orElseGet(
+            () -> {
+              System.out.println("la suma por defecto es 0");
+              return 0;
+            });
+  }
+
+  @Override
+  public Integer getRest(final String input1, final String input2) {
+    final String log = "Saved rest";
+    this.operation.saveLogSum(log);
+
+    return Try.of(() -> this.operation.rest(Integer.parseInt(input1), Integer.parseInt(input2)))
+        .onFailure(
+            throwable -> {
+              throw new NullPointerException("Null pointer");
+            })
+        .onSuccess(
+            response -> {
+              System.out.println("2");
+            })
+        .get();
   }
 }

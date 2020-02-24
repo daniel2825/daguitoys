@@ -14,6 +14,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,6 +55,66 @@ public class GetProductsServicesTest {
   }
 
   @Test
+  public void TestRest() {
+    // Setup
+    final String a = "10";
+    final String b = "11";
+    Mockito.when(this.operation.rest(Mockito.anyInt(), Mockito.anyInt())).thenReturn(1);
+    doNothing().when(this.operation).saveLogSum(Mockito.anyString());
+    // Execution
+    final int resultado = this.getproductservices.getRest(a, b);
+    // Assertion
+    Assert.assertEquals(1, resultado);
+    verify(this.operation, times(1)).saveLogSum(Mockito.anyString());
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void TestRestException() {
+    // Setup
+    final String a = "10";
+    final String b = "11";
+    Mockito.when(this.operation.rest(Mockito.anyInt(), Mockito.anyInt())).thenReturn(1);
+    doNothing().when(this.operation).saveLogSum(Mockito.anyString());
+    doThrow(new SecurityException("TEst")).when(this.operation).rest(Mockito.anyInt(), anyInt());
+    /* Mockito.when(this.operation.rest(Mockito.anyInt(), Mockito.anyInt()))
+    .thenThrow(new NullPointerException("TEst"));*/
+    // Execution
+    final int resultado = this.getproductservices.getRest(a, b);
+    Mockito.spy(this.getproductservices.getRest(a, b));
+    // Assertion
+    Assert.assertEquals(1, resultado);
+    verify(this.getproductservices, times(1)).getRest(Mockito.anyString(), Mockito.anyString());
+    verify(this.operation, times(1)).saveLogSum(Mockito.anyString());
+  }
+
+  @Test
+  public void whenSpyingOnList_thenCorrect() {
+    final List<String> list = new ArrayList<String>();
+    final List<String> spyList = Mockito.spy(list);
+
+    spyList.add("one");
+    spyList.add("two");
+
+    Mockito.verify(spyList).add("one");
+    Mockito.verify(spyList).add("two");
+
+    Assert.assertEquals(2, spyList.size());
+  }
+
+  @Test
+  public void whenSpyingOnList_thenInCorrect() {
+    final List<String> list = new ArrayList<String>();
+
+    list.add("one");
+    list.add("two");
+
+    Mockito.verify(list).add("one");
+    Mockito.verify(list).add("two");
+
+    Assert.assertEquals(2, list.size());
+  }
+
+  @Test
   public void Getproductservices3Test() {
 
     final Products getProductsClass = this.getproductservices.getInventory();
@@ -61,15 +124,6 @@ public class GetProductsServicesTest {
         this.buildGetproducts3().objectPrice.getBenefits().benefits,
         getProductsClass.objectPrice.getBenefits().benefits);
   }
-  /*
-  @Test
-  public void clientNewTest(){
-
-      doNothing().when(this.getproductservices).clientNew(any());
-      getproductservices.clientNew("Si");
-      verify(getproductservices,times(1)).clientNew("Si");
-
-  }*/
 
   public Products buildGetproducts2() {
     final int benefits = 50;
